@@ -5,26 +5,30 @@
 
 '''参数配置'''
 class Config:
-    # 只需要修改账号密码即可，其他可以不用修改。
+    # 需要修改账号密码
     username = ''
     password = ''
+    # 头部
     headers = {
         'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
     }
+    # 登录uestc的url链接
     login_url = 'http://idas.uestc.edu.cn/authserver/login?service=http://portal.uestc.edu.cn/index.portal'
+    # 登录的一些参数配置
     it = '#casLoginForm > input[type="hidden"]:nth-child(7)'
     dllt = 'userNamePasswordLogin'
     execution = 'e1s1'
     _eventId = 'submit'
     rmShown = '1'
+    # 登录提交表单的url
     login_post_url = 'http://idas.uestc.edu.cn/authserver/login?service=http://portal.uestc.edu.cn/index.portal'
     
     # 教学评价
     home_index = 'http://yjsjy.uestc.edu.cn/pyxx/jzsso/login'
     evaluation_index_url = 'http://yjsjy.uestc.edu.cn/pyxx/pygl/jxpj/index'
-    
+    # 匹配需要评价的链接
     re_s = '.*?onclick="edit\(\'(\d+)\'\);".*?'
-
+    # 提交评教的url
     evaluation_post_url = 'http://yjsjy.uestc.edu.cn/pyxx/pygl/jxpj/save/'
 
 import requests
@@ -32,10 +36,18 @@ from pyquery import PyQuery as pq
 import re
 class Evaluation():
     def __init__(self, config):
+        '''初始化
+        :param config: 一些配置参数
+        '''
         self.config = config
+        # 实例化requests.session
         self.s = requests.session()
 
     def login(self):
+        '''登录方法
+        :return: True:返回成功
+                 None:账号密码错误
+        '''
         try:
             res_login = self.s.get(self.config.login_url)
             if res_login.status_code == 200:
@@ -64,6 +76,9 @@ class Evaluation():
             print('login->', e)
     
     def start_evaluation(self):
+        '''开始评教
+        :return: None:评教失败，否则成功
+        '''
         try:
             # self.config.headers['Cookie'] = 'JSESSIONID=C99FD3686A9DB44BBCBB6C2629D51EDE.pyxx_server2;'
             # http://yjsjy.uestc.edu.cn/pyxx/pygl/jxpj/edit/518254
@@ -87,6 +102,9 @@ class Evaluation():
             print('start_evaluation->', e)
 
     def post_evaluation(self, course_id):
+        '''提交表单
+        :param course_id: 评教课程id
+        '''
         try:
             post_datas = {
                 'cjid':'',
