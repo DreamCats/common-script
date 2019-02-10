@@ -30,7 +30,7 @@ class LmyVideo(object):
         self.get_index()
         course_id = '03C0CDC4-F242-11E8-832A-EC0D9ACEE976'
         video_infos = self.get_video_resource(course_id)
-        # self.parse_video(video_infos)
+        self.parse_video(video_infos)
        
 
     def login(self):
@@ -107,13 +107,14 @@ class LmyVideo(object):
                 items_list = []
                 for item in items:
                     if item.attr('data-mime') == 'video':
-                        data_value = item.attr('data-value')
-                        # print('视频id:',data_value)
-                        video_time = re.findall(r'.*?<span>(.*?) 分钟</span>.*?',str(item('.create-box')))[0]
                         is_green = True if 'color:#8fc31f' in str(item('.create-box')) else False
                         if is_green:
                             print(data_value + '已经获取视频经验')
                             continue
+                        data_value = item.attr('data-value')
+                        # print('视频id:',data_value)
+                        video_time = re.findall(r'.*?<span>(.*?) 分钟</span>.*?',str(item('.create-box')))[0]
+                        
                         # print('视频时间:', video_time)
                         items_list.append(
                             {
