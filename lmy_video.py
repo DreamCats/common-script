@@ -29,6 +29,7 @@ class LmyVideo(object):
 
     def start(self):
         self.login()
+        self.get_index()
        
 
     def login(self):
@@ -50,10 +51,37 @@ class LmyVideo(object):
 
     def get_index(self):
         '''获取主页
-        :return: 待定
+        :return: items_list:
+                {
+                    item_id,
+                    data_id,
+                    data_url,
+                    data_name
+                }
         '''
         try:
-            pass
+            res_index = self.s.get(url=self.config.index_url)
+            if res_index.status_code == 200:
+                doc = pq(res_index.text)
+                # 用户课程列表
+                items = doc('.clazzcourse-list-row').items()
+                items_list = []
+                for i, item in enumerate(items):
+                    item_id = i
+                    data_id = item.attr('data-id')
+                    data_url = item.attr('data-url')
+                    data_name = item('.clazzcourse-name').text()
+                    items_list.append(
+                        {
+                            'item_id':item_id,
+                            'data_id':data_id,
+                            'data_url':data_url,
+                            'data_name':data_name
+                        }
+                    )
+                return items_list
+            else:
+                return None
         except Exception as e:
             print('get_index', e)
             
