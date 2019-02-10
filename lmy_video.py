@@ -6,18 +6,11 @@ import requests, re
 from pyquery import PyQuery as pq
 
 class Config:
-    username = '17608037124'
-    password = 'maifeng868'
-    # 课程id
-    # course_id = [
-        # '7D49841E-AE74-11E8-AA22-7CD30AD36C02', # 英语id
-        # '8D8A9E92-F137-11E8-832A-EC0D9ACEE976', # test_id
-        # '03C0CDC4-F242-11E8-832A-EC0D9ACEE976', # 英语口语房
-    # ]
-    base_url = 'https://www.mosoteach.cn/web/index.php' # lmy web_url
+    username = ''
+    password = ''
+
     login_url = 'https://www.mosoteach.cn/web/index.php?c=passport&m=account_login'
-    # 登录post参数
-    login_datas  = {'account_name':username, 'user_pwd':password, 'remember_me': 'N'}
+    
     # 主页
     index_url = 'https://www.mosoteach.cn/web/index.php?c=clazzcourse&m=index'
     # 视频主页资源
@@ -37,14 +30,15 @@ class LmyVideo(object):
         self.get_index()
         course_id = '03C0CDC4-F242-11E8-832A-EC0D9ACEE976'
         video_infos = self.get_video_resource(course_id)
-        self.parse_video(video_infos)
+        # self.parse_video(video_infos)
        
 
     def login(self):
         '''登录方法
         '''
+        login_datas  = {'account_name':self.config.username, 'user_pwd':self.config.password, 'remember_me': 'N'}
         try:
-            res_login = self.s.post(url=self.config.login_url, data=self.config.login_datas)
+            res_login = self.s.post(url=self.config.login_url, data=login_datas)
             if res_login.status_code == 200:
                 if res_login.json()['result_msg'] == 'OK':
                     print('登陆成功...')
@@ -128,7 +122,6 @@ class LmyVideo(object):
                                 'course_id':course_id
                             }
                         )
-                        # self.get_parse(data_value, video_time, class_id)
                     else:
                         continue
                 return items_list
@@ -166,7 +159,12 @@ class LmyVideo(object):
             return None
 
 def main():
-    lmy_video = LmyVideo(Config)
+    username = input('请输入账号：')
+    password = input('请输入密码：')
+    config = Config()
+    config.username = username
+    config.password = password
+    lmy_video = LmyVideo(config)
     lmy_video.start()
 
 
