@@ -116,6 +116,10 @@ class LmyVideo(object):
                         data_value = item.attr('data-value')
                         # print('视频id:',data_value)
                         video_time = re.findall(r'.*?<span>(.*?) 分钟</span>.*?',str(item('.create-box')))[0]
+                        is_green = True if 'color:#8fc31f' in str(item('.create-box')) else False
+                        if is_green:
+                            print(data_value + '已经获取视频经验')
+                            continue
                         # print('视频时间:', video_time)
                         items_list.append(
                             {
