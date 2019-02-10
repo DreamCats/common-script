@@ -22,6 +22,9 @@ class Config:
     index_url = 'https://www.mosoteach.cn/web/index.php?c=clazzcourse&m=index'
     # 视频主页资源
     video_url = 'https://www.mosoteach.cn/web/index.php?c=res&m=index&clazz_course_id={course_id}'
+    # 视频post网址
+    watch_url = 'https://www.mosoteach.cn/web/index.php?c=res&m=save_watch_to'
+    
     
 
 class LmyVideo(object):
@@ -33,7 +36,8 @@ class LmyVideo(object):
         self.login()
         self.get_index()
         course_id = '03C0CDC4-F242-11E8-832A-EC0D9ACEE976'
-        self.get_video_resource(course_id)
+        video_infos = self.get_video_resource(course_id)
+        self.parse_video(video_infos)
        
 
     def login(self):
@@ -52,6 +56,7 @@ class LmyVideo(object):
                 return None
         except Exception as e:
             print('异常:login->', e)
+            return None
 
     def get_index(self):
         '''获取主页
@@ -128,9 +133,33 @@ class LmyVideo(object):
         except Exception as e:
             print('get_video_resource->', e)
 
-    def parse_video(self):
+    def parse_video(self, video_infos):
+        '''根据视频信息，post视频信息
+        :param video_infos: 视频信息列表
+        :return: 待定
         '''
-        '''
+        try:
+            if video_infos:
+                for video_info in video_infos:
+                    video_time_min = int((float(video_info['video_time']) - 0.05) * 60)
+                    for count in range(video_time_min, video_time_min + 7):
+                        watch_datas = {
+                            'clazz_course_id':video_info['course_id'],
+                            'res_id':video_info['data_value'],
+                            'watch_to':video_time_min + count,
+                            'duration':video_time_min + count,
+                            'current_watch_to':0
+                        }
+                        res_watch = self.s.post(url=self.config.watch_url, data=watch_datas)
+                        if res_watch.status_code == 200:
+                            print(video_info['data_value']+'视频经验获得成功...---->',res_watch.text)
+                        else:
+                            return None
+            else:
+                return None
+        except Exception as e:
+            print('parse_video->', e)
+            return None
 
 def main():
     lmy_video = LmyVideo(Config)
