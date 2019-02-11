@@ -27,7 +27,7 @@ class LmyVideo(object):
 
     def start(self):
         self.login()
-        self.get_index()
+        index_infos = self.get_index()
         course_id = '03C0CDC4-F242-11E8-832A-EC0D9ACEE976'
         video_infos = self.get_video_resource(course_id)
         self.parse_video(video_infos)
@@ -88,6 +88,12 @@ class LmyVideo(object):
         except Exception as e:
             print('get_index', e)
             
+    def get_user_index(self, index_infos):
+        '''与用户交互，得到用户的选择
+        :param index_infos: 主页课程列表
+        :return: 待定
+        '''
+
     def get_video_resource(self, course_id):
         '''获取视频主页资源
         :param course_id: 课程id
@@ -160,8 +166,10 @@ class LmyVideo(object):
             return None
 
 def main():
-    username = input('请输入账号：')
-    password = input('请输入密码：')
+    # username = input('请输入账号：')
+    # password = input('请输入密码：')
+    username = '17608037124'
+    password = 'maifeng868'
     config = Config()
     config.username = username
     config.password = password
