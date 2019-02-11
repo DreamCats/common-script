@@ -173,10 +173,8 @@ class LmyVideo(object):
             return None
 
 def main():
-    # username = input('请输入账号：')
-    # password = input('请输入密码：')
-    username = '17608037124'
-    password = 'maifeng868'
+    username = input('请输入账号：')
+    password = input('请输入密码：')
     config = Config()
     config.username = username
     config.password = password
