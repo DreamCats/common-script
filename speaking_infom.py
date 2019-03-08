@@ -26,5 +26,11 @@ class SpeakingInform(object):
         :param config: 配置信息参数
         :return: null
         '''
-        self.config = config
+        self.config = config # 配置信息
+
+        # 口语访微信公众号头部信息， 最重要的是cookie
+        self.headers = {'Cookie':'think_language=zh-cn; PHPSESSID=j203eat1hn1716tis91csrog74'}
+        
+        # post_login_url 
+        self.post_login_url = 'http://epc.uestc.edu.cn/index.php/Wechat/User/ajax_login'
         
