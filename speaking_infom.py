@@ -2,6 +2,40 @@
 # __file_name__: speaking_infom.py
 # __time__: 2019:03:08:17:50
 
+
+# 配置邮箱信息
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+class EmailConfig:
+    def __init__(self):
+        # 配置邮箱信息
+        self.smtpserver = "smtp.qq.com"
+        self.smtpport = 25
+        self.from_mail = "470957137@qq.com"
+        self.to_mail = ["470957137@qq.com", '1647005988@qq.com', '249818110@qq.com']
+        self.password = 'ndjbbmdzxdeabhac'
+
+
+    def send_mail(self):
+        '''
+        '''
+        msg = MIMEText('速度去微信公众号选择心仪的口语访老师...', 'plain', 'utf-8')
+        msg['From'] = '470957137@qq.com'
+        msg['To'] = '470957137@qq.com'
+        subject = '口语访通知...'
+        msg['Subject'] = Header(subject, 'utf-8')
+        try:
+            # smtp = smtplib.SMTP_SSL(self.smtpserver, self.smtpport)
+            smtp = smtplib.SMTP()
+            smtp.connect(self.smtpserver, self.smtpport)
+            smtp.login(self.from_mail,self.password)
+            smtp.sendmail(self.from_mail,self.to_mail,msg.as_string())
+            print('send success！！！')
+        except Exception as e:
+            print('send_mail->', e)
+
+
 # config 配置信息
 
 class Config:
@@ -14,8 +48,10 @@ class Config:
     # 口语访次数
     speaking_count = 2 # 这个可是要经常修改的
 
+
 import requests
 from pyquery import PyQuery as pq
+
 
 # 口语访类
 class SpeakingInform(object):
@@ -131,5 +167,7 @@ class SpeakingInform(object):
 
 
 if __name__ == "__main__":
-    speakingInform = SpeakingInform(Config)
-    speakingInform.process()
+    # speakingInform = SpeakingInform(Config)
+    # speakingInform.process()
+    email = EmailConfig()
+    email.send_mail()
