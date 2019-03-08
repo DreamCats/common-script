@@ -141,7 +141,9 @@ class SpeakingInform(object):
                 # 判断是用户想要的
                 if len(amount) == self.config.speaking_count:
                     # 代表开始发邮箱了。
-                    print('给user发邮箱，告诉user，口语访多出了一周呀...')
+                    # print('给user发邮箱，告诉user，口语访多出了一周呀...')
+                    email = EmailConfig()
+                    email.send_mail()
                     return result
                 else:
                     print('口语访次数未达到user的要求...')
@@ -167,7 +169,7 @@ class SpeakingInform(object):
 
 
 if __name__ == "__main__":
-    # speakingInform = SpeakingInform(Config)
-    # speakingInform.process()
-    email = EmailConfig()
-    email.send_mail()
+    speakingInform = SpeakingInform(Config)
+    speakingInform.process()
+    # email = EmailConfig()
+    # email.send_mail()
