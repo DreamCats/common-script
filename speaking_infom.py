@@ -44,7 +44,7 @@ class Config:
     # 密码
     password = ''
     # 周期
-    periods = '180' # 暂定三分钟 
+    periods = 180 # 暂定三分钟 
     # 口语访次数
     speaking_count = 3 # 这个可是要经常修改的
 
@@ -168,7 +168,7 @@ class SpeakingInform(object):
             res = self.get_speaking_items()
             if res == '2':
                 # 说明口语访次数未到达要求...那么
-                time.sleep(self.config.speaking_count)
+                time.sleep(self.config.periods)
                 return self.process()
 
 
