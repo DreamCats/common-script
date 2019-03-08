@@ -39,4 +39,50 @@ class SpeakingInform(object):
 
         # requests.session()
         self.s = requests.session()
-                
+        
+
+    def login(self):
+        '''登录功能
+        :param null
+        :return: null
+        '''
+        try:
+            # 返回状态
+            # 0 代表成功
+            # 1 代表状态码非200
+            # 2 代表账号密码错误，或者账号不存在，或者需要在公众号激活该cookie
+            # 3 代表异常
+            result = '0'
+            #  访问登录
+            res = self.s.post(
+                url=self.post_login_url,
+                data=self.form_data,
+                headers=self.headers
+            )
+            # 判断状态码是否是200
+            if res.status_code == 200:
+                if '登录成功' in res.json()['message']:
+                    print(res.json()['message'])
+                else:
+                    # 否则账号密码错误， 或者是号码不存在， 或者是需要公众号登录一下口语访激活该cookie
+                    print('账号密码异常，或者去口语访公众号激活该cookie')
+                    result = '2'
+                    return result
+            else:
+                result = '1'
+                return result
+        except Exception as e:
+            print('login->:',e)
+            result = '3'
+            return result
+
+
+    def process(self):
+        '''访问流程
+        '''
+        self.login()
+
+
+if __name__ == "__main__":
+    speakingInform = SpeakingInform(Config)
+    speakingInform.process()
