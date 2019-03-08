@@ -33,4 +33,10 @@ class SpeakingInform(object):
         
         # post_login_url 
         self.post_login_url = 'http://epc.uestc.edu.cn/index.php/Wechat/User/ajax_login'
-        
+
+        # form-data
+        self.form_data = {'phone':self.config.username, 'password':self.config.password}
+
+        # requests.session()
+        self.s = requests.session()
+                
