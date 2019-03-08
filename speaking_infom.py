@@ -14,7 +14,7 @@ class EmailConfig:
         self.smtpport = 465
         self.from_mail = "470957137@qq.com"
         self.to_mail = ["470957137@qq.com", '1647005988@qq.com', '249818110@qq.com']
-        self.password = 'ndjbbmdzxdeabhac'
+        self.password = ''
 
 
     def send_mail(self):
@@ -40,9 +40,9 @@ class EmailConfig:
 
 class Config:
     # 学号：
-    username = '201822090429' 
+    username = '' 
     # 密码
-    password = '220031'
+    password = ''
     # 周期
     periods = '180' # 暂定三分钟 
     # 口语访次数
