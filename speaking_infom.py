@@ -11,7 +11,7 @@ class EmailConfig:
     def __init__(self):
         # 配置邮箱信息
         self.smtpserver = "smtp.qq.com"
-        self.smtpport = 25
+        self.smtpport = 465
         self.from_mail = "470957137@qq.com"
         self.to_mail = ["470957137@qq.com", '1647005988@qq.com', '249818110@qq.com']
         self.password = 'ndjbbmdzxdeabhac'
@@ -26,9 +26,9 @@ class EmailConfig:
         subject = '口语访通知...'
         msg['Subject'] = Header(subject, 'utf-8')
         try:
-            # smtp = smtplib.SMTP_SSL(self.smtpserver, self.smtpport)
-            smtp = smtplib.SMTP()
-            smtp.connect(self.smtpserver, self.smtpport)
+            smtp = smtplib.SMTP_SSL(self.smtpserver, self.smtpport)
+            # smtp = smtplib.SMTP()
+            # smtp.connect(self.smtpserver, self.smtpport)
             smtp.login(self.from_mail,self.password)
             smtp.sendmail(self.from_mail,self.to_mail,msg.as_string())
             print('send success！！！')
