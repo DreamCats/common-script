@@ -16,3 +16,13 @@ class Config:
 
 
 
+# 口语访类
+class SpeakingInform(object):
+    '''口语访功能类
+    '''
+    def __init__(self, config):
+        '''初始化
+        :param config: 配置信息参数
+        :return: null
+        '''
+        self.config = config
