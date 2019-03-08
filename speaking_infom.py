@@ -14,7 +14,8 @@ class Config:
     # 口语访次数
     speaking_count = '2' # 这个可是要经常修改的
 
-
+import requests
+from pyquery import PyQuery as pq
 
 # 口语访类
 class SpeakingInform(object):
@@ -26,3 +27,4 @@ class SpeakingInform(object):
         :return: null
         '''
         self.config = config
+        
