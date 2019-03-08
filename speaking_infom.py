@@ -46,10 +46,10 @@ class Config:
     # 周期
     periods = '180' # 暂定三分钟 
     # 口语访次数
-    speaking_count = 2 # 这个可是要经常修改的
+    speaking_count = 3 # 这个可是要经常修改的
 
 
-import requests
+import requests, time
 from pyquery import PyQuery as pq
 
 
@@ -143,7 +143,7 @@ class SpeakingInform(object):
                     # 代表开始发邮箱了。
                     # print('给user发邮箱，告诉user，口语访多出了一周呀...')
                     email = EmailConfig()
-                    email.send_mail()
+                    # email.send_mail()
                     return result
                 else:
                     print('口语访次数未达到user的要求...')
@@ -166,6 +166,11 @@ class SpeakingInform(object):
         res = self.login()
         if res == '0':
             res = self.get_speaking_items()
+            if res == '2':
+                # 说明口语访次数未到达要求...那么
+                time.sleep(self.config.speaking_count)
+                return self.process()
+
 
 
 if __name__ == "__main__":
