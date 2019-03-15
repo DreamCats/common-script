@@ -13,7 +13,12 @@ class EmailConfig:
         self.smtpserver = "smtp.qq.com"
         self.smtpport = 465
         self.from_mail = "470957137@qq.com"
-        self.to_mail = ["470957137@qq.com", '1647005988@qq.com', '249818110@qq.com']
+        # self.to_mail = ["maifeng_cat@qq.com", 
+        # '1647005988@qq.com', 
+        # '249818110@qq.com', 
+        # '1229245203@qq.com',
+        # 'maifeng868@gmail.com']
+        self.to_mail = ['maifeng_cat@qq.com']
         self.password = ''
 
 
@@ -44,12 +49,14 @@ class Config:
     # 密码
     password = ''
     # 周期
-    periods = 180 # 暂定三分钟 
+    periods = 120 # 暂定三分钟 
+    # 口语访服务器崩溃周期
+    periods_errors = 600 # 暂定十分钟 
     # 口语访次数
     speaking_count = 3 # 这个可是要经常修改的
 
 
-import requests, time
+import requests, time, datetime
 from pyquery import PyQuery as pq
 
 
@@ -65,8 +72,13 @@ class SpeakingInform(object):
         self.config = config # 配置信息
 
         # 口语访微信公众号头部信息， 最重要的是cookie
-        self.headers = {'Cookie':'think_language=zh-cn; PHPSESSID=j203eat1hn1716tis91csrog74'}
+        # self.headers = {'Cookie':'think_language=zh-cn; PHPSESSID=9p2tgnef8bejdb4km3j80lb1p3'}
+        self.headers = {
+            'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.0 Mobile/14G60 Safari/602.1',
+        }
         
+
+
         # post_login_url 
         self.post_login_url = 'http://epc.uestc.edu.cn/index.php/Wechat/User/ajax_login'
 
@@ -79,6 +91,11 @@ class SpeakingInform(object):
         # requests.session()
         self.s = requests.session()
         
+        # 初始化 url
+        self.init_url = 'http://epc.uestc.edu.cn/index.php/init'
+
+        # sure_url
+        self.sure_url = 'http://epc.uestc.edu.cn/index.php/Wechat/Other/confirm_disclaimer/back_url/display_index'
 
     def login(self):
         '''登录功能
@@ -91,6 +108,10 @@ class SpeakingInform(object):
             # 1 代表状态码非200
             # 2 代表账号密码错误，或者账号不存在，或者需要在公众号激活该cookie
             # 3 代表异常
+            
+            # 初始化
+            res = self.s.get(url=self.init_url, headers=self.headers)
+            res = self.s.post(url=self.sure_url, headers=self.headers)
             result = '0'
             #  访问登录
             res = self.s.post(
@@ -105,7 +126,7 @@ class SpeakingInform(object):
                     return result
                 else:
                     # 否则账号密码错误， 或者是号码不存在， 或者是需要公众号登录一下口语访激活该cookie
-                    print('账号密码异常，或者去口语访公众号激活该cookie')
+                    print('账号密码异常，或者去口语访公众号激活该cookie ', datetime.datetime.now())
                     result = '2'
                     return result
             else:
@@ -138,15 +159,19 @@ class SpeakingInform(object):
                 amount = []
                 for item in items:
                     amount.append(item('.media-heading').text())
+                    # print(item)
                 # 判断是用户想要的
+                print('目前口语访是第%d周' %len(amount))
+                print('用户需要第%d周口语访' %self.config.speaking_count)
                 if len(amount) == self.config.speaking_count:
                     # 代表开始发邮箱了。
-                    # print('给user发邮箱，告诉user，口语访多出了一周呀...')
+                    for item in amount:
+                        print(item)
                     email = EmailConfig()
                     email.send_mail()
                     return result
                 else:
-                    print('口语访次数未达到user的要求...')
+                    print('没有达到用户的要求...', datetime.datetime.now())
                     result = '2'
                     return result
 
@@ -170,6 +195,13 @@ class SpeakingInform(object):
                 # 说明口语访次数未到达要求...那么
                 time.sleep(self.config.periods)
                 return self.process()
+        elif res == '2':
+            time.sleep(self.config.periods)
+            return self.process()
+        else:
+            print('对面服务器崩溃了...  ', datetime.datetime.now())
+            time.sleep(self.config.periods_errors)
+            return self.process()
 
 
 
