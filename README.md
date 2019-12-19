@@ -31,7 +31,7 @@
 4. 注意：python3环境
 
 
-### 4. 电子科技大学网络安全挂机时常
+### 4. 电子科技大学实验室安全挂机时常
 1. 测试完毕
 2. 时间：2019.12.19
 3. [网址](http://222.197.182.137/redir.php?catalog_id=134&object_id=135134&tdsourcetag=s_pctim_aiomsg)
