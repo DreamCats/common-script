@@ -19,7 +19,7 @@ class EmailConfig:
         # '1229245203@qq.com',
         # 'maifeng868@gmail.com']
         self.to_mail = ['maifeng_cat@qq.com']
-        self.password = ''
+        self.password = 'ndjbbmdzxdeabhac'
 
 
     def send_mail(self):
@@ -45,9 +45,9 @@ class EmailConfig:
 
 class Config:
     # 学号：
-    username = '' 
+    username = '201822090429' 
     # 密码
-    password = ''
+    password = '220031'
     # 周期
     periods = 120 # 暂定三分钟 
     # 口语访服务器崩溃周期

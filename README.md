@@ -7,7 +7,7 @@
 
 -------
 
-## 暂时整理三个个
+## 暂时整四个
 ### 1. 口语坊邮件通知...
 1. 测试完毕
 2. 时间：2019.3.8
@@ -29,3 +29,12 @@
 2. 时间：2019.01.23
 3. `python evalutation.py`
 4. 注意：python3环境
+
+
+### 4. 电子科技大学网络安全挂机时常
+1. 测试完毕
+2. 时间：2019.12.19
+3. [网址](http://222.197.182.137/redir.php?catalog_id=134&object_id=135134&tdsourcetag=s_pctim_aiomsg)
+4. 获取cookies自行更换
+5. `python safe_time.py`
+6. 注意：python3环境
