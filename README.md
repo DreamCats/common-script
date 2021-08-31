@@ -13,4 +13,5 @@
 | workflow | 名称-链接 | 作者 | 
 | --- | --- | --- |
 | flomo | [flomo-workflow](alfred-workflow/flomo.alfredworkflow) | DreamCats | 
+| dl | [短链生成：www.suowo.cn](dl.alredworkflow) | DreamCats | 
 
