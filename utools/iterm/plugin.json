@@ -1,0 +1,66 @@
+{
+    "pluginName": "terminal执行命令",
+    "author": "白昼",
+    "homepage": "https://blog.heiye.site",
+    "logo": "logo.png",
+    "preload": "preload.js",
+    "platform": [
+        "darwin",
+        "mac",
+        "linux"
+    ],
+    "features": [
+        {
+            "code": "iterm_command",
+            "explain": "打开iterm并执行命令",
+            "cmds": [
+                "it",
+                {
+                    "type": "over",
+                    "label": "打开iTerm并执行",
+                    "minLength": 2,
+                    "maxLength": 50
+                }
+            ]
+        },
+        {
+            "code": "current_iterm_command",
+            "explain": "当前目录打开iTerm并执行",
+            "cmds": [
+                "it",
+                {
+                    "type": "over",
+                    "label": "当前目录打开iTerm并执行",
+                    "minLength": 2,
+                    "maxLength": 50
+                }
+            ]
+        },
+        {
+            "code": "kitty_command",
+            "explain": "打开iterm并执行命令",
+            "cmds": [
+                "kt",
+                {
+                    "type": "over",
+                    "label": "打开kitty并执行",
+                    "minLength": 2,
+                    "maxLength": 50
+                }
+            ]
+        },
+        {
+            "code": "current_kitty_command",
+            "explain": "当前目录打开iTerm并执行",
+            "cmds": [
+                "kt",
+                {
+                    "type": "over",
+                    "label": "当前目录打开kitty并执行",
+                    "minLength": 2,
+                    "maxLength": 50
+                }
+            ]
+        }
+    ]
+}
