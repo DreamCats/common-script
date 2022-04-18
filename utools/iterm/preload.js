@@ -86,11 +86,12 @@ const execCommand = function (itemData,path) {
     if (!itemData || !itemData.title) {
         return
     }
+    console.log(path)
     let goPath = path ? 'tell current session to write text "cd ' + path + '"' : '';
+    console.log(goPath)
     require('child_process').exec(`osascript -e 'tell application "iTerm"
         activate
         try
-            
             select current window
             tell current window
                 create tab with default profile
@@ -116,31 +117,21 @@ const execCommand = function (itemData,path) {
     addHistory(itemData)
 };
 
-const execCommandKitty = function (itemData,path) {
+const execCommandKitty = function (itemData, path) {
     if (!itemData || !itemData.title) {
         return
     }
-    let goPath = path ? 'tell current session to write text "cd ' + path + '"' : '';
-    require('child_process').exec(`osascript -e 'tell application "kitty"
-        activate
-        try
-            select current window
-            tell current window
-                create tab with default profile
-            end tell
-            tell current window
-                ${goPath}
-                tell current session to write text "${itemData.title}"
-            end tell
-        on error
-            create window with default profile
-            select current window
-            tell current window
-                ${goPath}
-                tell current session to write text "${itemData.title}"
-            end tell
-        end try
-    end tell'`, (error, stdout, stderr) => {
+    console.log(path)
+    let goPath = path ? 'cd ' + path : '';
+    console.log(goPath)
+    // 注意英文输入法
+    require('child_process').exec(`osascript \
+    -e 'tell application "kitty" to activate' \
+    -e 'tell application "System Events" to tell process "kitty" to keystroke "t" using command down' \
+    -e 'tell application "System Events" to tell process "kitty" to keystroke "${goPath}"' \
+    -e 'tell application "System Events" to tell process "kitty" to key code 52' \
+    -e 'tell application "System Events" to tell process "kitty" to keystroke "${itemData.title}"' \
+    -e 'tell application "System Events" to tell process "kitty" to key code 52'`, (error, stdout, stderr) => {
         console.log('exec:',stdout)
         console.log('exec:',error)
         if (error) return window.utools.showNotification(stderr)
@@ -166,7 +157,6 @@ window.exports = {
                         callbackSetList(history)
                     }
                 }
-
             },
             // 子输入框内容变化时被调用 可选 (未设置则无搜索)
             search: (action, searchWord, callbackSetList) => {
