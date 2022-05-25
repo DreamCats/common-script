@@ -51,7 +51,7 @@
         },
         {
             "code": "current_kitty_command",
-            "explain": "当前目录打开iTerm并执行",
+            "explain": "当前目录打开kitty并执行",
             "cmds": [
                 "kt",
                 {
