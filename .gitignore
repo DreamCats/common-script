@@ -108,3 +108,4 @@ venv.bak/
 *datas
 
 *.DS_Store
+.DS_Store
